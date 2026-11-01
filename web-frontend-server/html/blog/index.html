@@ -1,1 +1,35 @@
-<h1>MyMiniCloud - Blog</h1><a href="/">Back</a>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>MyMiniCloud - Blog</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 850px; margin: 30px auto; padding: 20px; background: #0f172a; color: #f8fafc; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+        .post { background: #1e293b; padding: 15px; border-radius: 8px; }
+        .post img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; }
+        a { color: #38bdf8; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>MyMiniCloud - Blog Cá Nhân ({{HOSTNAME}})</h1>
+    <p><a href="/">⬅ Quay lại Trang chủ (Home)</a></p>
+    <div class="grid">
+        <div class="post">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500" alt="Cloud">
+            <h3><a href="/blog/blog1.html">1. Kiến trúc Cloud & Docker</a></h3>
+            <p>Tìm hiểu cách đóng gói ứng dụng vào container độc lập.</p>
+        </div>
+        <div class="post">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="Server">
+            <h3><a href="/blog/blog2.html">2. Nginx Load Balancing</a></h3>
+            <p>Cân bằng tải Round Robin cho hệ thống web chịu tải cao.</p>
+        </div>
+        <div class="post">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500" alt="Monitoring">
+            <h3><a href="/blog/blog3.html">3. Giám sát với Prometheus</a></h3>
+            <p>Thu thập chỉ số CPU, RAM và trực quan hóa trên Grafana.</p>
+        </div>
+    </div>
+</body>
+</html>

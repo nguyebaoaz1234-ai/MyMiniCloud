@@ -3,23 +3,40 @@ networks:
     name: cloud-net
 
 services:
-  web-frontend-server:
+  web-frontend-server1:
     build: ./web-frontend-server
     image: myminicloud/web:dev
-    container_name: web-frontend-server
+    container_name: web-frontend-server1
+    hostname: web-frontend-server1
     restart: unless-stopped
     networks:
       cloud-net:
         aliases:
           - web
+          - web-frontend-server
     ports:
       - "8080:80"
+
+  web-frontend-server2:
+    build: ./web-frontend-server
+    image: myminicloud/web:dev
+    container_name: web-frontend-server2
+    hostname: web-frontend-server2
+    restart: unless-stopped
+    networks:
+      cloud-net:
+        aliases:
+          - web2
+    ports:
+      - "8082:80"
 
   application-backend-server:
     build: ./application-backend-server
     image: myminicloud/app:dev
     container_name: application-backend-server
     restart: unless-stopped
+    depends_on:
+      - relational-database-server
     networks:
       cloud-net:
         aliases:
@@ -27,8 +44,12 @@ services:
     ports:
       - "8085:8081"
     environment:
-      OIDC_ISSUER: "http://authentication-identity-server:8080/realms/master"
-      OIDC_AUDIENCE: "myapp"
+      DB_HOST: "relational-database-server"
+      DB_USER: "root"
+      DB_PASS: "root"
+      DB_NAME: "studentdb"
+      KEYCLOAK_INTERNAL_URL: "http://authentication-identity-server:8080"
+      OIDC_REALM: "realm_52400003"
 
   relational-database-server:
     image: mariadb:11
@@ -72,6 +93,8 @@ services:
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
+      SILO_ROOT_USER: minioadmin
+      SILO_ROOT_PASSWORD: minioadmin
     volumes:
       - ./object-storage-server/data:/data
     ports:
@@ -90,10 +113,10 @@ services:
       - "1053:53/udp"
       - "1053:53/tcp"
     volumes:
+      - ./internal-dns-server/named.conf:/etc/bind/named.conf:ro
       - ./internal-dns-server/named.conf.options:/etc/bind/named.conf.options:ro
       - ./internal-dns-server/named.conf.local:/etc/bind/named.conf.local:ro
       - ./internal-dns-server/db.cloud.local:/etc/bind/db.cloud.local:ro
-      # - ./internal-dns-server/named.conf:/etc/bind/named.conf:ro
     networks:
       cloud-net:
         aliases:
@@ -139,7 +162,8 @@ services:
     container_name: api-gateway-proxy-server
     restart: unless-stopped
     depends_on:
-      - web-frontend-server
+      - web-frontend-server1
+      - web-frontend-server2
       - application-backend-server
       - authentication-identity-server
     ports:

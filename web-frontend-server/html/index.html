@@ -1,1 +1,28 @@
-<h1>MyMiniCloud - Home</h1><a href="/blog/">Blog</a>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>MyMiniCloud - Home</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 850px; margin: 30px auto; padding: 20px; background: #f8fafc; color: #1e293b; }
+        .server-badge { background: #2563eb; color: white; padding: 6px 12px; border-radius: 6px; display: inline-block; font-weight: bold; }
+        .card { background: white; padding: 18px; margin-top: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
+        a { color: #2563eb; text-decoration: none; font-weight: bold; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="server-badge">Served by Container: {{HOSTNAME}}</div>
+    <h1>MyMiniCloud - Home</h1>
+    <p>Chào mừng đến với hệ thống MiniCloud. Khám phá <a href="/blog/">Trang Blog Cá Nhân</a> hoặc chọn trực tiếp bài viết dưới đây:</p>
+    
+    <div class="card">
+        <h3>Danh sách bài viết nổi bật:</h3>
+        <ul>
+            <li><a href="/blog/blog1.html">Bài viết 1: Tổng quan về Kiến trúc Điện toán Đám mây & Container</a></li>
+            <li><a href="/blog/blog2.html">Bài viết 2: Tối ưu hóa Microservices với Nginx Reverse Proxy</a></li>
+            <li><a href="/blog/blog3.html">Bài viết 3: Giám sát Hạ tầng Cloud thời gian thực với Prometheus & Grafana</a></li>
+        </ul>
+    </div>
+</body>
+</html>

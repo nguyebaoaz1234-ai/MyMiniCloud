@@ -4,6 +4,11 @@ server {
     root /usr/share/nginx/html;
     index index.html;
 
+    # Tự động thay thế {{HOSTNAME}} bằng tên container thực tế (web-frontend-server1 hoặc 2)
+    sub_filter '{{HOSTNAME}}' '$hostname';
+    sub_filter_once off;
+    add_header X-Served-By $hostname;
+
     location / {
         try_files $uri $uri/ =404;
     }
@@ -12,5 +17,11 @@ server {
         alias /usr/share/nginx/html/blog/;
         index index.html;
         autoindex off;
+    }
+
+    # Endpoint phục vụ Mở rộng 7 (Prometheus scrape web-frontend-server:80)
+    location /metrics {
+        default_type text/plain;
+        return 200 "# HELP web_frontend_up Web Frontend Server Status\n# TYPE web_frontend_up gauge\nweb_frontend_up 1\n";
     }
 }
