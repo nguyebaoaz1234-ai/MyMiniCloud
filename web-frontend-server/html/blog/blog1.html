@@ -1,11 +1,639 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head><meta charset="UTF-8"><title>Blog 1 - Cloud & Docker</title></head>
-<body style="font-family: Arial, sans-serif; max-width: 750px; margin: 30px auto; line-height: 1.6;">
-    <h1>Bài 1: Tổng quan về Kiến trúc Điện toán Đám mây & Container</h1>
-    <p><em>Phục vụ bởi máy chủ: <strong>{{HOSTNAME}}</strong></em></p>
-    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700" alt="Cloud Computing" style="width:100%; border-radius:8px;">
-    <p>Điện toán đám mây kết hợp với Docker Container giúp cô lập môi trường thực thi, tối ưu tài nguyên và triển khai nhanh chóng trên AWS EC2.</p>
-    <p><a href="/blog/">⬅ Quay lại danh sách Blog</a> | <a href="/">🏠 Về Trang chủ</a></p>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="Football Club Blog - Khám phá lịch sử, danh hiệu và huyền thoại của bốn câu lạc bộ bóng đá.">
+    <title>Real Madrid | Football Club Blog</title>
+    <style>
+        :root {
+            --paper: #fbf7f0;
+            --ink: #211b1b;
+            --muted: #6c6561;
+            --red: #a8232b;
+            --line: #e8dcd1
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--ink)
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .wrap {
+            width: min(1120px, calc(100% - 36px));
+            margin: auto
+        }
+
+        .top {
+            background: #fffaf3;
+            border-bottom: 1px solid #e8dcd1;
+        }
+
+        /* Chia Header thành 2 nhóm trái - phải */
+        .top-inner {
+            min-height: 84px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+        }
+
+        /* Nhóm bên trái */
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* Nhóm 4 CLB bên phải */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* Định dạng các liên kết */
+        .nav-left a,
+        .nav-right a {
+            font-size: 14px;
+            font-weight: bold;
+            color: #574b4a;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        /* Hiệu ứng khi di chuột */
+        .nav-left a:hover,
+        .nav-right a:hover {
+            color: #a8232b;
+        }
+
+        /* Responsive cho màn hình nhỏ */
+        @media (max-width: 900px) {
+            .top-inner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 18px 0;
+                gap: 16px;
+            }
+
+            .nav-left,
+            .nav-right {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            font-size: 23px;
+            font-weight: 900;
+            letter-spacing: -.8px
+        }
+
+        .ball {
+            font-size: 31px
+        }
+
+        .brand span:last-child {
+            color: var(--red)
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap
+        }
+
+        nav a {
+            font-size: 13px;
+            font-weight: bold;
+            color: #574b4a
+        }
+
+        nav a:hover {
+            color: var(--red)
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 800;
+            color: var(--red);
+            text-transform: uppercase
+        }
+
+        .intro {
+            padding: 44px 0 30px
+        }
+
+        .intro h1,
+        .article-hero h1 {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: clamp(36px, 5vw, 64px);
+            letter-spacing: -1.5px;
+            line-height: 1.05;
+            margin: 12px 0 13px
+        }
+
+        .intro p {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.65;
+            max-width: 750px
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #d9c8b8;
+            padding-bottom: 10px;
+            margin: 20px 0
+        }
+
+        .section-head h2 {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            margin: 0;
+            color: #72232a
+        }
+
+        .count {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            padding: 10px 0 55px
+        }
+
+        .card {
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid #eadfd4;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px #54312312;
+            transition: transform .18s, box-shadow .18s
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px #54312320
+        }
+
+        .card-visual {
+            height: 270px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--club-dark);
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, .64), rgba(0, 0, 0, .02) 72%), var(--club-photo), radial-gradient(circle at 75% 15%, var(--club-accent), var(--club-dark) 70%);
+            background-position: center;
+            background-size: cover
+        }
+
+        .card-visual:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 45%, #ffffff12);
+            pointer-events: none
+        }
+
+        .card-tag {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: white;
+            background: #a51d29;
+            padding: 8px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .5px
+        }
+
+        .card-title-onphoto {
+            position: absolute;
+            bottom: 17px;
+            left: 20px;
+            color: #fff;
+            font-family: Georgia, serif;
+            font-size: clamp(27px, 3.5vw, 41px);
+            font-weight: bold;
+            text-shadow: 0 3px 8px #0009
+        }
+
+        .card-body {
+            padding: 22px
+        }
+
+        .card-info {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--red);
+            letter-spacing: .6px
+        }
+
+        .card-body h3 {
+            font-family: Georgia, serif;
+            font-size: 26px;
+            line-height: 1.12;
+            margin: 9px 0
+        }
+
+        .card-body p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+            min-height: 45px
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 19px;
+            padding-top: 16px;
+            border-top: 1px solid #eee4da
+        }
+
+        .card-city {
+            font-size: 12px;
+            color: #777
+        }
+
+        .read {
+            color: #fff;
+            background: var(--red);
+            padding: 11px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold
+        }
+
+        .read:hover {
+            background: #7f1620
+        }
+
+        footer {
+            background: #9eb4bf;
+            color: #fff;
+            font-size: 12px;
+            padding: 20px 0;
+            text-align: center
+        }
+
+        footer b {
+            font-weight: normal
+        }
+
+        .article-hero {
+            position: relative;
+            color: white;
+            min-height: 380px;
+            display: flex;
+            align-items: flex-end;
+            background-color: var(--club-dark);
+            background-image: linear-gradient(0deg, #111d 3%, #0005 80%), var(--club-photo), radial-gradient(circle at 70% 20%, var(--club-accent), var(--club-dark) 75%);
+            background-size: cover;
+            background-position: center
+        }
+
+        .article-hero-inner {
+            padding: 65px 0 45px
+        }
+
+        .article-hero .eyebrow {
+            color: #ffdfb6
+        }
+
+        .article-hero p {
+            max-width: 780px;
+            font-size: 17px;
+            line-height: 1.6;
+            color: #f6eee7
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--red);
+            padding: 12px 17px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 24px
+        }
+
+        .back:hover {
+            background: #ffedda
+        }
+
+        .facts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 24px auto 6px
+        }
+
+        .fact {
+            border: 1px solid var(--line);
+            padding: 16px;
+            background: white;
+            border-radius: 11px
+        }
+
+        .fact strong {
+            display: block;
+            font-size: 20px;
+            color: var(--red);
+            font-family: Georgia, serif;
+            margin-top: 5px
+        }
+
+        .fact small {
+            font-size: 11px;
+            color: #6c6561;
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .article-body {
+            padding: 26px 0 64px;
+            max-width: 960px
+        }
+
+        .part {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+            gap: 28px;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .part:nth-child(even) .picture {
+            order: 2
+        }
+
+        .part:nth-child(even) .part-copy {
+            order: 1
+        }
+
+        .picture {
+            height: 265px;
+            border-radius: 12px;
+            background-color: var(--club-dark);
+            background-image: linear-gradient(0deg, #0009, transparent 65%), var(--section-photo), radial-gradient(circle at 70% 20%, var(--club-accent), var(--club-dark) 75%);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .picture .picture-num {
+            position: absolute;
+            bottom: 15px;
+            left: 17px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 1px
+        }
+
+        .part-number {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--red)
+        }
+
+        .part h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: clamp(25px, 3vw, 33px);
+            font-weight: 700;
+            margin: 10px 0 14px;
+        }
+
+        .part p {
+            line-height: 1.78;
+            color: #49403d;
+            font-size: 15px;
+            margin: 0
+        }
+
+        .part p+p {
+            margin-top: 12px
+        }
+
+        .bottom-back {
+            margin-top: 34px;
+            display: inline-block;
+            background: var(--red);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold
+        }
+
+        @media(max-width:720px) {
+            .top-inner {
+                padding: 18px 0;
+                align-items: flex-start;
+                flex-direction: column
+            }
+
+            .brand {
+                font-size: 20px
+            }
+
+            nav {
+                gap: 13px
+            }
+
+            .intro {
+                padding: 32px 0 18px
+            }
+
+            .cards {
+                grid-template-columns: 1fr
+            }
+
+            .card-visual {
+                height: 250px
+            }
+
+            .card-body p {
+                min-height: 0
+            }
+
+            .part,
+            .facts {
+                grid-template-columns: 1fr
+            }
+
+            .part:nth-child(even) .picture,
+            .part:nth-child(even) .part-copy {
+                order: initial
+            }
+
+            .picture {
+                height: 235px
+            }
+
+            .article-hero {
+                min-height: 330px
+            }
+
+            .article-hero-inner {
+                padding: 36px 0
+            }
+
+            .article-body {
+                padding-top: 10px
+            }
+        }
+    </style>
+</head>
+
+<body style="--club-dark:#20202b;--club-accent:#d3ad60;--club-photo:url('../images/club-real.jpg')">
+    <header class="top">
+        <div class="wrap top-inner">
+
+            <!-- NHÓM BÊN TRÁI -->
+            <div class="nav-left">
+
+                <!-- Quay về trang chủ MyMiniCloud -->
+                <a href="../index.html">
+                    Trang chủ
+                </a>
+
+                <!-- Quay về danh sách Football Club Blog -->
+                <a href="index.html">
+                    Khám phá Blog
+                </a>
+
+            </div>
+
+            <!-- NHÓM BÊN PHẢI -->
+            <nav class="nav-right" aria-label="Chọn câu lạc bộ">
+
+                <a href="blog1.html">Real Madrid</a>
+
+                <a href="blog2.html">FC Barcelona</a>
+
+                <a href="blog3.html">Manchester United</a>
+
+                <a href="blog4.html">Liverpool FC</a>
+
+            </nav>
+
+        </div>
+    </header>
+    <main>
+        <section class="article-hero">
+            <div class="wrap article-hero-inner">
+                <div class="eyebrow">Câu lạc bộ · La Liga · Tây Ban Nha</div>
+                <h1>Real Madrid</h1>
+                <p>Biểu tượng của những đêm Champions League, tinh thần chiến thắng và di sản bóng đá kéo dài hơn một
+                    thế kỷ.</p>
+            </div>
+        </section>
+        <div class="wrap">
+            <div class="facts">
+                <div class="fact"><small>Thành lập</small><strong>1902</strong></div>
+                <div class="fact"><small>Thành phố</small><strong>Madrid</strong></div>
+                <div class="fact"><small>Sân vận động</small><strong>Santiago Bernabéu</strong></div>
+            </div>
+            <div class="article-body">
+                <div class="section-head">
+                    <h2>Khám phá Real Madrid</h2>
+                </div>
+                <section class="part" id="phan-1">
+                    <div class="picture" role="img" aria-label="Ảnh minh họa phần 1: Lịch sử hình thành"
+                        style="--section-photo:url('../images/real-1.jpg')"><span class="picture-num"></span></div>
+                    <div class="part-copy">
+                        <h2>Lịch sử hình thành</h2>
+                        <p>Real Madrid Club de Fútbol được thành lập năm 1902 tại Madrid. Năm 1920, đội bóng được trao
+                            danh xưng “Real” (Hoàng gia). Từ một câu lạc bộ địa phương, Real Madrid phát triển thành tên
+                            tuổi hàng đầu của bóng đá châu Âu, nổi bật bởi khát vọng chinh phục và những thế hệ ngôi sao
+                            kế tiếp nhau.</p>
+                    </div>
+                </section>
+                <section class="part" id="phan-2">
+                    <div class="picture" role="img" aria-label="Ảnh minh họa phần 2: Thành tích nổi bật"
+                        style="--section-photo:url('../images/real-2.jpg')"><span class="picture-num"></span></div>
+                    <div class="part-copy">
+                        <h2>Thành tích nổi bật</h2>
+                        <p>Real Madrid nổi tiếng với thành công bền bỉ tại giải vô địch Tây Ban Nha và đấu trường châu
+                            Âu. Đội bóng từng vô địch Cúp C1 châu Âu năm mùa liên tiếp từ 1956 đến 1960, một cột mốc đặt
+                            nền móng cho vị thế đặc biệt của câu lạc bộ ở giải đấu danh giá nhất châu lục.</p>
+                    </div>
+                </section>
+                <section class="part" id="phan-3">
+                    <div class="picture" role="img" aria-label="Ảnh minh họa phần 3: Danh hiệu tiêu biểu"
+                        style="--section-photo:url('../images/real-3.jpg')"><span class="picture-num"></span></div>
+                    <div class="part-copy">
+                        <h2>Danh hiệu tiêu biểu</h2>
+                        <p>Bộ sưu tập danh hiệu của Real Madrid gồm nhiều chức vô địch La Liga, Cúp Nhà vua Tây Ban Nha,
+                            Siêu cúp Tây Ban Nha và UEFA Champions League/Cúp C1 châu Âu. Những chiếc cúp này thể hiện
+                            sức cạnh tranh của đội qua nhiều thời kỳ và dưới nhiều thế hệ huấn luyện viên.</p>
+                    </div>
+                </section>
+                <section class="part" id="phan-4">
+                    <div class="picture" role="img" aria-label="Ảnh minh họa phần 4: Cầu thủ huyền thoại"
+                        style="--section-photo:url('../images/real-4.jpg')"><span class="picture-num"></span></div>
+                    <div class="part-copy">
+                        <h2>Cầu thủ huyền thoại</h2>
+                        <p>Cristiano Ronaldo: khoác áo Real Madrid giai đoạn 2009–2018, trở thành chân sút ghi nhiều bàn
+                            nhất lịch sử đội bóng và góp công lớn vào bốn chức vô địch Champions League.</p>
+                   
+                    </div>
+                </section>
+                <section class="part" id="phan-5">
+                    <div class="picture" role="img" aria-label="Ảnh minh họa phần 5: Sân vận động và bản sắc"
+                        style="--section-photo:url('../images/real-5.jpg')"><span class="picture-num"></span></div>
+                    <div class="part-copy">
+                        <h2>Sân vận động và bản sắc</h2>
+                        <p>Santiago Bernabéu là sân nhà gắn liền với hình ảnh Real Madrid tại trung tâm thủ đô Madrid.
+                            Màu áo trắng truyền thống, biệt danh Los Blancos và tinh thần không bỏ cuộc tạo nên bản sắc
+                            riêng, đặc biệt trong những trận cầu lớn.</p>
+                    </div>
+                </section><a href="index.html" class="bottom-back">← Back | Trở về trang chủ</a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="wrap">© 2026 MyMiniCloud Football Club Blog</div>
+    </footer>
 </body>
+
 </html>

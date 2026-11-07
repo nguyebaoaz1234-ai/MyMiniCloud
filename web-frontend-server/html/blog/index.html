@@ -2,34 +2,276 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>MyMiniCloud - Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Football Club Blog - Giới thiệu bốn câu lạc bộ bóng đá nổi tiếng.">
+    <title>Football Club Blog</title>
+
     <style>
-        body { font-family: Arial, sans-serif; max-width: 850px; margin: 30px auto; padding: 20px; background: #0f172a; color: #f8fafc; }
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
-        .post { background: #1e293b; padding: 15px; border-radius: 8px; }
-        .post img { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; }
-        a { color: #38bdf8; text-decoration: none; font-weight: bold; }
+        /* 1. Thiết lập chung */
+        * {
+            box-sizing: border-box;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+
+            display: inline-block;
+            padding: 12px 20px;
+
+            background: rgba(255, 255, 255, 0.9);
+            color: #173b59;
+
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+            z-index: 10;
+            transition: 0.2s;
+        }
+
+        .home-btn:hover {
+            background: #173b59;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #211b1b;
+
+            /* Ảnh nền trang chủ */
+            background-image: url("../images/background.jpg");
+
+            /* Ảnh phủ toàn bộ màn hình */
+            background-size: cover;
+
+            /* Căn giữa ảnh */
+            background-position: center;
+
+            /* Không lặp lại ảnh */
+            background-repeat: no-repeat;
+
+            /* Giữ ảnh cố định khi cuộn trang */
+            background-attachment: fixed;
+
+            /* Màu nền dự phòng */
+            background-color: #a1d8db;
+        }
+
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1000px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        /* 2. Tiêu đề trang */
+        header {
+            padding: 48px 16px 28px;
+            text-align: center;
+            color: white;
+        }
+
+        header h1 {
+            margin: 0 0 12px;
+            font-size: 34px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+            color: #f8ffff;
+        }
+
+        /* 3. Khu vực bài viết */
+        main {
+            padding-bottom: 28px;
+        }
+
+        .blog-card {
+            overflow: hidden;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 5px 14px rgba(40, 55, 90, 0.23);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 9px 22px rgba(40, 55, 90, 0.26);
+        }
+
+        .blog-card img {
+            display: block;
+            width: 100%;
+            object-fit: cover;
+            background: #e6e9ee;
+        }
+
+        .blog-content {
+            padding: 16px;
+        }
+
+        .blog-content h2 {
+            margin: 0 0 9px;
+            font-size: 18px;
+        }
+
+        .blog-content p {
+            margin: 0 0 14px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .read-more {
+            color: #0877bf;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* 4. Bài viết nổi bật: chiều cao ảnh = 1.5 lần ảnh nhỏ */
+        .featured {
+            margin-bottom: 20px;
+        }
+
+        .featured img {
+            height: 270px;
+        }
+
+        .featured .blog-content h2 {
+            font-size: 23px;
+        }
+
+        /* 5. Ba bài viết nhỏ */
+        .small-blogs {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .small-blogs .blog-card img {
+            height: 180px;
+        }
+
+        .small-blogs .blog-content h2 {
+            font-size: 16px;
+        }
+
+        /* 6. Chân trang */
+        footer {
+            padding: 20px 16px;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        /* 7. Hiển thị trên điện thoại */
+        @media (max-width: 650px) {
+            header {
+                padding-top: 32px;
+            }
+
+            header h1 {
+                font-size: 27px;
+            }
+
+            .featured img {
+                height: 240px;
+            }
+
+            .small-blogs {
+                grid-template-columns: 1fr;
+            }
+
+            .small-blogs .blog-card img {
+                height: 190px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>MyMiniCloud - Blog Cá Nhân ({{HOSTNAME}})</h1>
-    <p><a href="/">⬅ Quay lại Trang chủ (Home)</a></p>
-    <div class="grid">
-        <div class="post">
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500" alt="Cloud">
-            <h3><a href="/blog/blog1.html">1. Kiến trúc Cloud & Docker</a></h3>
-            <p>Tìm hiểu cách đóng gói ứng dụng vào container độc lập.</p>
-        </div>
-        <div class="post">
-            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500" alt="Server">
-            <h3><a href="/blog/blog2.html">2. Nginx Load Balancing</a></h3>
-            <p>Cân bằng tải Round Robin cho hệ thống web chịu tải cao.</p>
-        </div>
-        <div class="post">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500" alt="Monitoring">
-            <h3><a href="/blog/blog3.html">3. Giám sát với Prometheus</a></h3>
-            <p>Thu thập chỉ số CPU, RAM và trực quan hóa trên Grafana.</p>
-        </div>
-    </div>
+    <a href="../index.html" class="home-btn">
+        Trang chủ
+    </a>
+    <!-- TIÊU ĐỀ BLOG -->
+    <header>
+        <h1>⚽ Football Club Blog</h1>
+        <p>Khám phá lịch sử, thành tích và các huyền thoại bóng đá</p>
+    </header>
+
+    <main class="container">
+
+        <!-- BLOG 1: REAL MADRID (THẺ LỚN) -->
+        <article class="blog-card featured">
+            <a href="blog1.html">
+                <img src="../images/club-real.jpg" alt="Ảnh bìa câu lạc bộ Real Madrid">
+            </a>
+            <div class="blog-content">
+                <h2>Real Madrid</h2>
+                <p>Khám phá lịch sử hơn một thế kỷ, những danh hiệu châu Âu và các huyền thoại của đội bóng Hoàng gia Tây Ban Nha.</p>
+                <a class="read-more" href="blog1.html">Xem chi tiết →</a>
+            </div>
+        </article>
+
+        <!-- BA BLOG NHỎ NẰM TRÊN CÙNG MỘT HÀNG -->
+        <section class="small-blogs" aria-label="Các câu lạc bộ khác">
+
+            <!-- BLOG 2: BARCELONA -->
+            <article class="blog-card">
+                <a href="blog2.html">
+                    <img src="../images/club-barce.jpg" alt="Ảnh bìa câu lạc bộ FC Barcelona">
+                </a>
+                <div class="blog-content">
+                    <h2>FC Barcelona</h2>
+                    <p>Bản sắc xanh đỏ, lối chơi đẹp mắt và những ngôi sao từ La Masia.</p>
+                    <a class="read-more" href="blog2.html">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- BLOG 3: MANCHESTER UNITED -->
+            <article class="blog-card">
+                <a href="blog3.html">
+                    <img src="../images/club-manu.jpg" alt="Ảnh bìa câu lạc bộ Manchester United">
+                </a>
+                <div class="blog-content">
+                    <h2>Manchester United</h2>
+                    <p>Quỷ đỏ thành Manchester và những trang sử đáng nhớ tại Old Trafford.</p>
+                    <a class="read-more" href="blog3.html">Xem chi tiết →</a>
+                </div>
+            </article>
+
+            <!-- BLOG 4: LIVERPOOL -->
+            <article class="blog-card">
+                <a href="blog4.html">
+                    <img src="../images/club-liver.jpg" alt="Ảnh bìa câu lạc bộ Liverpool FC">
+                </a>
+                <div class="blog-content">
+                    <h2>Liverpool FC</h2>
+                    <p>Khám phá Anfield, những chiếc cúp danh giá và tinh thần You'll Never Walk Alone.</p>
+                    <a class="read-more" href="blog4.html">Xem chi tiết →</a>
+                </div>
+            </article>
+
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>© 2026 MyMiniCloud Football Club Blog</footer>
+
 </body>
 </html>

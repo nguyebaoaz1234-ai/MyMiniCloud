@@ -1,28 +1,395 @@
+
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>MyMiniCloud - Home</title>
+
     <style>
-        body { font-family: Arial, sans-serif; max-width: 850px; margin: 30px auto; padding: 20px; background: #f8fafc; color: #1e293b; }
-        .server-badge { background: #2563eb; color: white; padding: 6px 12px; border-radius: 6px; display: inline-block; font-weight: bold; }
-        .card { background: white; padding: 18px; margin-top: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.08); }
-        a { color: #2563eb; text-decoration: none; font-weight: bold; }
-        a:hover { text-decoration: underline; }
+        /* ===== 1. CẤU HÌNH CHUNG ===== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #17283f;
+
+            background: linear-gradient(
+                120deg,
+                #77e3d6 0%,
+                #9cc9e7 55%,
+                #a7b6e7 100%
+            );
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 24px;
+        }
+
+        .server-badge {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+
+            background: rgba(255, 255, 255, 0.65);
+            color: #173b59;
+
+            padding: 8px 15px;
+            border-radius: 20px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* ===== 2. TIÊU ĐỀ TRANG CHỦ ===== */
+
+        .header {
+            text-align: center;
+            padding: 55px 0 38px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin: 0 0 14px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #33465d;
+            line-height: 1.7;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+
+        .blog-link {
+            display: inline-block;
+            margin-top: 22px;
+            padding: 12px 24px;
+            background: #173b59;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .blog-link:hover {
+            background: #25618c;
+        }
+
+
+        /* ===== 3. TIÊU ĐỀ DANH SÁCH ===== */
+
+        .section-title {
+            font-size: 22px;
+            margin: 8px 0 22px;
+            font-weight: 800;
+        }
+
+
+        /* ===== 4. DANH SÁCH BÀI VIẾT ===== */
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding-bottom: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.94);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.09);
+
+            display: flex;
+            flex-direction: column;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+        }
+
+
+        /* ===== 5. BÀI VIẾT NỔI BẬT ===== */
+
+        .featured {
+            grid-column: 1 / -1;
+            min-height: 230px;
+
+            background: linear-gradient(
+                120deg,
+                #173b59,
+                #326d91
+            );
+
+            color: white;
+            padding: 35px;
+        }
+
+        .featured .card-label {
+            color: #b8e9ec;
+        }
+
+        .featured h2 {
+            font-size: 30px;
+            max-width: 750px;
+        }
+
+        .featured p {
+            color: #e0edf4;
+        }
+
+        .featured .read-more {
+            color: #ffffff;
+        }
+
+
+        /* ===== 6. NỘI DUNG THẺ ===== */
+
+        .card-label {
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #397eaa;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            line-height: 1.4;
+            margin: 14px 0;
+        }
+
+        .card p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #64748b;
+            margin: 0 0 25px;
+        }
+
+        .read-more {
+            margin-top: auto;
+            font-size: 14px;
+            font-weight: bold;
+            color: #1475a8;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ===== 7. FOOTER ===== */
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #ffffff;
+            background: rgba(31, 75, 104, 0.25);
+        }
+
+
+        /* ===== 8. RESPONSIVE ===== */
+
+        @media (max-width: 768px) {
+
+            .header {
+                padding: 40px 0 30px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured {
+                grid-column: auto;
+                min-height: 0;
+                padding: 25px;
+            }
+
+            .featured h2 {
+                font-size: 24px;
+            }
+
+            .card {
+                padding: 22px;
+            }
+        }
+
     </style>
 </head>
+
 <body>
-    <div class="server-badge">Served by Container: {{HOSTNAME}}</div>
-    <h1>MyMiniCloud - Home</h1>
-    <p>Chào mừng đến với hệ thống MiniCloud. Khám phá <a href="/blog/">Trang Blog Cá Nhân</a> hoặc chọn trực tiếp bài viết dưới đây:</p>
-    
-    <div class="card">
-        <h3>Danh sách bài viết nổi bật:</h3>
-        <ul>
-            <li><a href="/blog/blog1.html">Bài viết 1: Tổng quan về Kiến trúc Điện toán Đám mây & Container</a></li>
-            <li><a href="/blog/blog2.html">Bài viết 2: Tối ưu hóa Microservices với Nginx Reverse Proxy</a></li>
-            <li><a href="/blog/blog3.html">Bài viết 3: Giám sát Hạ tầng Cloud thời gian thực với Prometheus & Grafana</a></li>
-        </ul>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+
+        <header class="header">
+
+            <h1>☁️ MyMiniCloud</h1>
+
+           <div class="server-badge">
+                Served by Container: {{HOSTNAME}}
+            </div>
+
+            <p>
+                Chào mừng đến với hệ thống MyMiniCloud.
+                Khám phá công nghệ điện toán đám mây,
+                kiến trúc hệ thống và các giải pháp hiện đại.
+            </p>
+
+            <a href="blog/index.html" class="blog-link">
+                Khám phá Blog →
+            </a>
+
+        </header>
+
+
+        <!-- ===== DANH SÁCH BÀI VIẾT ===== -->
+
+        <main>
+
+
+
+            <section class="blog-grid">
+
+
+
+                <article class="card featured">
+
+                    <div class="card-label">
+                        Bài viết 01
+                    </div>
+
+                    <h2>
+                        Real Madrid
+                    </h2>
+
+                    <p>
+                        Khám phá lịch sử hơn một thế kỷ, những danh hiệu châu Âu và các huyền thoại của đội bóng Hoàng gia Tây Ban Nha.
+                    </p>
+
+                    <a href="blog/blog1.html" class="read-more">
+                        Đọc bài viết →
+                    </a>
+
+                </article>
+
+
+                <!-- BLOG 2 -->
+
+                <article class="card">
+
+                    <div class="card-label">
+                        Bài viết 02
+                    </div>
+
+                    <h2>
+                        FC Barcelona
+                    </h2>
+
+                    <p>
+                        Bản sắc xanh đỏ, lối chơi đẹp mắt và những ngôi sao từ La Masia.
+                    </p>
+
+                    <a href="blog/blog2.html" class="read-more">
+                        Đọc bài viết →
+                    </a>
+
+                </article>
+
+
+                <!-- BLOG 3 -->
+
+                <article class="card">
+
+                    <div class="card-label">
+                        Bài viết 03
+                    </div>
+
+                    <h2>
+                        Manchester United
+                    </h2>
+
+                    <p>
+                        Quỷ đỏ thành Manchester và những trang sử đáng nhớ tại Old Trafford.
+                    </p>
+
+                    <a href="blog/blog3.html" class="read-more">
+                        Đọc bài viết →
+                    </a>
+
+                </article>
+
+
+                <!-- BLOG 4 -->
+
+                <article class="card">
+
+                    <div class="card-label">
+                        Bài viết 04
+                    </div>
+
+                    <h2>
+                        Liverpool FC
+                    </h2>
+
+                    <p>
+                        Khám phá Anfield, những chiếc cúp danh giá và tinh thần You'll Never Walk Alone.
+                    </p>
+
+                    <a href="blog/blog4.html" class="read-more">
+                        Đọc bài viết →
+                    </a>
+
+                </article>
+
+            </section>
+
+        </main>
+
     </div>
+
+
+    <!-- ===== FOOTER ===== -->
+
+    <footer>
+        © 2026 MyMiniCloud Football Club Blog
+    </footer>
+
 </body>
 </html>
